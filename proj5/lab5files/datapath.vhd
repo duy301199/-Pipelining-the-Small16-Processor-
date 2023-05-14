@@ -1,0 +1,268 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+use work.sm16_types.all;
+
+-- datapath Entity Description
+-- Adapted from Dr. Michael Crocker's Spring 2013 CSCE 385 Lab 4 at Pacific Lutheran University
+entity datapath is
+    port( CLK   : in std_logic;
+          RESET : in std_logic;
+          
+          -- I/O with Data Memory
+          DATA_IN   : out sm16_data;
+          DATA_OUT  : in  sm16_data;
+          DATA_ADDR : out sm16_address; 
+          
+          -- I/O with Instruction Memory
+          INSTR_OUT  : in  sm16_data;
+          INSTR_ADDR : out sm16_address;
+          
+          -- OpCode sent to the Control
+          INSTR_OP   : out sm16_opcode;
+          
+          -- Control Signals to the ALU
+          ALU_OP : in std_logic_vector(1 downto 0);
+          B_INV  : in std_logic;
+          CIN    : in std_logic;
+          
+          -- Control Signals from the Accumulator
+          --ZERO_FLAG : out std_logic;
+          --NEG_FLAG  : out std_logic;
+          
+	
+          -- ALU Multiplexer Select Signals
+          A_SEL  : in std_logic;
+          B_SEL  : in std_logic;
+          --PC_SEL : in std_logic;
+          
+          -- Enable Signals for all registers
+          --EN_A  : in std_logic;
+          EN_PC : in std_logic;
+	  EN_ABCD : in std_logic;
+	  EN_InstrWord : in std_logic;
+	  EN_OPCODE : in std_logic;
+          EN_Immediate: in std_logic;
+	  EN_DATA : in std_logic;
+	  EN_RegVal : in std_logic;
+	  EN_REG : in std_logic;
+	 
+	  Instr_OP_S2 : out std_logic_vector(3 downto 0);
+	  Instr_OP_S3 : out std_logic_vector(3 downto 0)
+	  );
+end datapath;
+
+-- datapath Architecture Description
+architecture structural of datapath is
+    
+    -- declare all components and their ports 
+    component reg is
+        generic( DWIDTH : integer := 8 );
+        port( CLK : in std_logic;
+              RST : in std_logic;
+              CE : in std_logic;
+              
+              D : in std_logic_vector( DWIDTH-1 downto 0 );
+              Q : out std_logic_vector( DWIDTH-1 downto 0 ) );
+    end component;
+    
+    component alu is
+        port( A : in sm16_data;
+              B : in sm16_data;
+              OP : in std_logic_vector(1 downto 0);
+              D : out sm16_data;
+              CIN : in std_logic;
+              B_INV : in std_logic);
+    end component;
+    
+    component adder is
+        port( A : in sm16_address;
+              B : in sm16_address;
+              D : out sm16_address);
+    end component;
+    
+    component mux2 is
+        generic( DWIDTH : integer := 16 );
+        port( IN0 : in std_logic_vector( DWIDTH-1 downto 0 );
+              IN1 : in std_logic_vector( DWIDTH-1 downto 0 );
+              SEL : in std_logic;
+              DOUT : out std_logic_vector( DWIDTH-1 downto 0 ) );
+    end component;
+    
+    component ABCDRegFile is
+	port( CLK: in std_logic;
+	     RESET: in std_logic;
+             
+  	-- ABCD*
+	     RD_REG : in std_logic_vector(1 downto 0);  -- Which register to read and output
+             REG_OUT : out sm16_data;
+          
+             ABCD_WE : in std_logic; -- Write enable signal
+             WR_REG : in std_logic_vector(1 downto 0);  -- Which register to write to
+             REG_IN : in sm16_data);
+    end component;
+
+    component zero_extend is
+        port( A : in sm16_address;
+              Z : out sm16_data);
+    end component;
+    
+    --component zero_checker is
+        --port( A : in sm16_data;
+              --Z : out std_logic);
+    --end component;
+    
+    signal zero_16 : sm16_data := "0000000000000000";
+    signal alu_a, alu_b, alu_out : sm16_data;
+    signal pc_out, pc_in : sm16_address;
+    signal a_out, immediate_zero_extend_out : sm16_data;
+    signal adder_out : sm16_data; 
+    signal one : sm16_data := "0000000000000001";
+    signal instr_word_out, immediate_out, the_data_out, reg_value_out, reg_value_in : sm16_data;
+    signal reg_out: std_logic_vector(1 downto 0);
+    --signal opcode_out : sm16_opcode;
+begin
+    
+    InstrWord : reg generic map ( DWIDTH => 16)
+	port map (
+	CLK => CLK,
+	RST => RESET,
+	CE => EN_InstrWord,
+	D => INSTR_OUT,
+	Q => instr_word_out
+	);
+   
+    TheOpcode : reg generic map ( DWIDTH => 4)
+	port map (
+	CLK => CLK,
+	RST => RESET,
+	CE => EN_OPCODE,
+	D => instr_word_out(15 downto 12),
+	Q => Instr_OP_S3
+	);
+
+   TheImmediate : reg generic map ( DWIDTH => 16)
+	port map (
+	CLK => CLK,
+	RST => RESET,
+	CE => EN_Immediate,
+	D => immediate_zero_extend_out,
+	Q => immediate_out
+	);
+    
+   TheData : reg generic map ( DWIDTH => 16)
+	port map (
+	CLK => CLK,
+	RST => RESET,
+	CE => EN_DATA,
+	D => DATA_OUT,
+	Q => the_data_out
+	);
+
+   RegVal : reg generic map ( DWIDTH => 16)
+	port map (
+	CLK => CLK,
+	RST => RESET,
+	CE => EN_RegVal,
+	D => reg_value_in,
+	Q => reg_value_out
+	);
+
+    TheReg : reg generic map ( DWIDTH => 2)
+        port map (
+        CLK => CLK,
+	RST => RESET,
+	CE => EN_REG, 
+	D => instr_word_out(11 downto 10),
+	Q => reg_out
+	);
+
+    ABCD_RegFile : ABCDRegFile port map (
+        CLK => CLK,
+	RESET => RESET,
+	RD_REG => instr_word_out(11 downto 10),
+        REG_OUT => reg_value_in,
+          
+        ABCD_WE => EN_ABCD,
+        WR_REG => reg_out, 
+        REG_IN => alu_out 
+	);
+
+    TheAlu: alu port map (
+        A     => alu_a,
+        B     => alu_b,
+        OP    => ALU_OP,
+        D     => alu_out,
+        CIN   => CIN,
+        B_INV => B_INV
+        );
+    
+   PCadder: adder port map (
+	A => pc_out,
+	B => one(9 downto 0),
+	D => adder_out(9 downto 0)
+	);
+    
+    Amux: mux2 generic map ( DWIDTH => 16 )
+        port map (
+        IN0  => zero_16,  -- 00
+        IN1  => reg_value_out,  -- 01
+        SEL  => A_SEL,
+        DOUT => alu_a
+        );
+    
+    Bmux: mux2 generic map ( DWIDTH => 16 )
+        port map (
+        IN0  => the_data_out,  -- 00
+        IN1  => immediate_out,  -- 01
+        SEL  => B_SEL,
+        DOUT => alu_b
+        );
+ 	
+    --PCmux: mux2 generic map ( DWIDTH => 10 )
+        --port map (
+        --IN0  => adder_out(9 downto 0),  -- 00
+        --IN1  => alu_out(9 downto 0),  -- 01
+        --SEL  => PC_SEL,
+        --DOUT => pc_in
+        --);
+    
+    ProgramCounter: reg generic map ( DWIDTH => 10 )
+        port map (
+        CLK => CLK,
+        RST => RESET,
+        CE  => EN_PC,
+        D   => adder_out(9 downto 0),
+        Q   => pc_out
+        );
+    
+    --Accumulator: reg generic map ( DWIDTH => 16 )
+        --port map (
+        --CLK => CLK,
+       -- RST => RESET,
+       -- CE  => EN_A,
+       -- D   => alu_out,
+       -- Q   => a_out
+      --  );
+  
+    ImmediateZeroExt: zero_extend port map (
+        A => instr_word_out(9 downto 0),
+        Z => immediate_zero_extend_out
+        );
+    
+    --ZeroCheck: zero_checker port map (
+        --A => a_out,
+        --Z => ZERO_FLAG
+        --);
+    
+    --NEG_FLAG <= alu_out(15);
+    
+    DATA_IN   <= reg_value_in;
+    DATA_ADDR <= instr_word_out(9 downto 0);
+    
+    
+    Instr_OP_S2 <= instr_word_out(15 downto 12);
+    
+    
+    INSTR_ADDR <= pc_out(9 downto 0);
+    
+end structural;

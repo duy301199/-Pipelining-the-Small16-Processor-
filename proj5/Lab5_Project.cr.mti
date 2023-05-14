@@ -1,0 +1,138 @@
+{E:/381 Lab/proj5/lab5files/zero_checker.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/zero_checker.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package sm16_types
+-- Compiling entity zero_checker
+-- Compiling architecture dataflow of zero_checker
+
+} {} {}} {E:/381 Lab/proj5/lab5files/reg.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/reg.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity reg
+-- Compiling architecture behavioral of reg
+
+} {} {}} {E:/381 Lab/proj5/lab5files/processor.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/processor.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package sm16_types
+-- Compiling entity processor
+-- Compiling architecture structural of processor
+
+} {} {}} {E:/381 Lab/proj5/lab5files/adder.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/adder.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_SIGNED
+-- Loading package sm16_types
+-- Compiling entity adder
+-- Compiling architecture behavioral of adder
+
+} {} {}} {E:/381 Lab/proj5/lab5files/sm16_types.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/sm16_types.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling package sm16_types
+
+} {} {}} {E:/381 Lab/proj5/lab5files/control_s2.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/control_s2.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package sm16_types
+-- Compiling entity control_s2
+-- Compiling architecture behavorial of control_s2
+
+} {} {}} {E:/381 Lab/proj5/lab5files/control_s3.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/control_s3.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package sm16_types
+-- Compiling entity control_s3
+-- Compiling architecture behavorial of control_s3
+
+} {} {}} {E:/381 Lab/proj5/lab5files/mux4.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/mux4.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity mux4
+-- Compiling architecture behavioral of mux4
+
+} {} {}} {E:/381 Lab/proj5/lab5files/datapath.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/datapath.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package sm16_types
+-- Compiling entity datapath
+-- Compiling architecture structural of datapath
+
+} {} {}} {E:/381 Lab/proj5/lab5files/zero_extend.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/zero_extend.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package sm16_types
+-- Compiling entity zero_extend
+-- Compiling architecture dataflow of zero_extend
+
+} {} {}} {E:/381 Lab/proj5/lab5files/test_processor.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/test_processor.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package sm16_types
+-- Compiling entity test_processor
+-- Compiling architecture testbench of test_processor
+
+} {} {}} {E:/381 Lab/proj5/lab5files/ABCDRegFile.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/ABCDRegFile.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package sm16_types
+-- Compiling entity ABCDRegFile
+-- Compiling architecture structural of ABCDRegFile
+
+} {} {}} {E:/381 Lab/proj5/lab5files/instr_memory.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/instr_memory.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package sm16_types
+-- Compiling entity instr_memory
+-- Compiling architecture behavioral of instr_memory
+
+} {} {}} {E:/381 Lab/proj5/lab5files/data_memory.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:\381 Lab\proj5\lab5files\data_memory.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package sm16_types
+-- Compiling entity data_memory
+-- Compiling architecture behavioral of data_memory
+
+} {} {}} {E:/381 Lab/proj5/lab5files/alu.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/381 Lab/proj5/lab5files/alu.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_SIGNED
+-- Loading package sm16_types
+-- Compiling entity alu
+-- Compiling architecture rtl of alu
+
+} {} {}}
